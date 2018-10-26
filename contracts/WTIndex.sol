@@ -86,30 +86,56 @@ contract Hotel is AbstractHotel {
     uint Price = 0;
 
     uint donationTotal = 0;
-    address[] Donators;
+    struct donator{
+        address donatorAddress;
+        uint donatorAmount;
+    }
+    donator[] Donators;
 
   //Service Provider is the place the funds are transfered when The donation Total is Reached.
     address ServiceProvider;
 
-
-
-   
-  constructor(address _manager, string _dataUri, address _index, uint _OfferOrRequest, uint _Price, address ServiceProvider) public {
+  constructor(address _manager, string _dataUri, address _index, uint _OfferOrRequest, uint _Price, address _ServiceProvider) public {
     require(_manager != address(0));
     require(_index != address(0));
     
     if(_OfferOrRequest == 1){
-      require (ServiceProvider != address(0x0));
+      require (_ServiceProvider != address(0x0));
       }
-      
 
-      
-    
     require(bytes(_dataUri).length != 0);
+    
+    Price = _Price;
+    ServiceProvider = _ServiceProvider;
     manager = _manager;
     index = _index;
     dataUri = _dataUri;
     created = block.number;
+  }
+  function _donate(uint256 amount) payable public {
+        //require(msg.value == amount);
+        //require(msg.value <= (Price - address(this).balance));
+        donator memory thisDonator;
+        thisDonator.donatorAddress = msg.sender;
+        thisDonator.donatorAmount = msg.value;
+        Donators.push(thisDonator);
+    }
+    
+  function _checkDonationBalance() public view returns(uint){
+      return address(this).balance;
+  }
+  
+  function _checkAmountLeftToDonate() public view returns(uint){
+      return Price - address(this).balance;
+  }
+  
+  function _releaseDonations() public {
+      //require(msg.sender == manager);
+      //require(ServiceProvider != address(0x0));
+      //require(address(this).balance >= Price);
+      ServiceProvider.transfer(address(this).balance);
+      
+      
   }
   
   function _editInfoImpl(string _dataUri) internal {
@@ -125,6 +151,7 @@ contract Hotel is AbstractHotel {
     require(_newManager != address(0));
     manager = _newManager;
   }
+
 
 }
 
