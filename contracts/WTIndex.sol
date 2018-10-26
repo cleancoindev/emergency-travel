@@ -93,7 +93,7 @@ contract Hotel is AbstractHotel {
     donator[] Donators;
 
   //Service Provider is the place the funds are transfered when The donation Total is Reached.
-    address ServiceProvider;
+    address public ServiceProvider;
 
   constructor(address _manager, string _dataUri, address _index, uint _OfferOrRequest, uint _Price, address _ServiceProvider) public {
     require(_manager != address(0));
