@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.hello {
+  color: red;
+}
+
+.outerBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.titleBox {
+  background-color: red;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 3em;
+  padding-left: 5px;
+border-bottom: dashed;
+border-bottom: black;
+}
+
+.account-data {
+  color: black;
+  font-family: 'Open Sans', sans-serif;
+}
