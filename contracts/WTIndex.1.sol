@@ -76,35 +76,12 @@ contract Hotel is AbstractHotel {
    * @param _index originating WTIndex address
    */
    
-   // Additional Functionality
     uint RoomSupply = 0;
 
-  //Zero Equals Offer, so it means someone is OFFERING this.
-  //One Euqal Request, so this is for people REQUEST this.
-
-    uint OfferOrRequest = 0;
-    uint Price = 0;
-
-    uint donationTotal = 0;
-    address[] Donators;
-
-  //Service Provider is the place the funds are transfered when The donation Total is Reached.
-    address ServiceProvider;
-
-
-
    
-  constructor(address _manager, string _dataUri, address _index, uint _OfferOrRequest, uint _Price, address ServiceProvider) public {
+  constructor(address _manager, string _dataUri, address _index) public {
     require(_manager != address(0));
     require(_index != address(0));
-    
-    if(_OfferOrRequest == 1){
-      require (ServiceProvider != address(0x0));
-      }
-      
-
-      
-    
     require(bytes(_dataUri).length != 0);
     manager = _manager;
     index = _index;
@@ -204,7 +181,7 @@ contract AbstractWTIndex is Ownable, AbstractBaseContract {
   mapping(address => uint) public hotelsByManagerIndex;
   address public LifToken;
 
-  function registerHotel(string dataUri, uint _OfferOrRequest, uint _Price, address ServiceProvider) returns(address);
+  function registerHotel(string dataUri) returns(address);
   function deleteHotel(address hotel) external;
   function callHotel(address hotel, bytes data) external;
   function transferHotel(address hotel, address newManager) external;
@@ -212,7 +189,7 @@ contract AbstractWTIndex is Ownable, AbstractBaseContract {
   function getHotels() view public returns (address[]);
   function getHotelsByManager(address manager) view public returns (address[]);
 
-  event HotelRegistered(address hotel, uint managerIndex, uint allIndex, uint _OfferOrRequest, address ServiceProvider);
+  event HotelRegistered(address hotel, uint managerIndex, uint allIndex);
   event HotelDeleted(address hotel, uint managerIndex, uint allIndex);
   event HotelCalled(address hotel);
   event HotelTransferred(address hotel, address previousManager, address newManager);
@@ -238,7 +215,7 @@ contract WTIndex is AbstractWTIndex {
   /**
    * @dev Event triggered every time hotel is registered
    */
-  event HotelRegistered(address hotel, uint managerIndex, uint allIndex, uint _OfferOrRequest, address ServiceProvider);
+  event HotelRegistered(address hotel, uint managerIndex, uint allIndex);
   /**
    * @dev Event triggered every time hotel is deleted
    */
@@ -274,13 +251,13 @@ contract WTIndex is AbstractWTIndex {
    * Emits `HotelRegistered` on success.
    * @param  dataUri Hotel's data pointer
    */
-  function registerHotel(string dataUri, uint _OfferOrRequest, uint _Price, address ServiceProvider) returns (address hotelAddress) {
-    Hotel newHotel = new Hotel(msg.sender, dataUri, this, _OfferOrRequest, _Price, ServiceProvider);
+  function registerHotel(string dataUri) returns (address hotelAddress) {
+    Hotel newHotel = new Hotel(msg.sender, dataUri, this);
     hotelsIndex[newHotel] = hotels.length;
     hotels.push(newHotel);
     hotelsByManagerIndex[newHotel] = hotelsByManager[msg.sender].length;
     hotelsByManager[msg.sender].push(newHotel);
-    emit HotelRegistered(newHotel, hotelsByManagerIndex[newHotel], hotelsIndex[newHotel], _OfferOrRequest, ServiceProvider);
+    emit HotelRegistered(newHotel, hotelsByManagerIndex[newHotel], hotelsIndex[newHotel]);
     return newHotel;
 	}
 
