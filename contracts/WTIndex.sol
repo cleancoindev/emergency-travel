@@ -106,7 +106,7 @@ contract Hotel is AbstractHotel {
     dataUri = _dataUri;
     created = block.number;
   }
-  function _donate(uint256 amount) payable public {
+  function _donate() payable public {
         //require(msg.value == amount);
         //require(msg.value <= (Price - address(this).balance));
         donator memory thisDonator;
@@ -227,7 +227,7 @@ contract AbstractWTIndex is Ownable, AbstractBaseContract {
 
 
 
-  function registerHotel(string dataUri) returns(address);
+  function registerHotel(string dataUri, uint persons) external;
   function deleteHotel(address hotel) external;
   function callHotel(address hotel, bytes data) external;
   function transferHotel(address hotel, address newManager) external;
@@ -243,7 +243,7 @@ contract AbstractWTIndex is Ownable, AbstractBaseContract {
 
 contract WTIndex is AbstractWTIndex {
 
-  bytes32 public contractType = bytes32("wtindex");
+  bytes32 public contractType = bytes32("Relief Effort");
 
   // Array of addresses of `Hotel` contracts
   address[] public hotels;
@@ -259,8 +259,6 @@ contract WTIndex is AbstractWTIndex {
   address public LifToken;
   
   // Struct for Hotels/Request created
- 
-  
   uint HotelPrice;
   
   HotelContract[] public HotelList;
@@ -322,12 +320,11 @@ contract WTIndex is AbstractWTIndex {
    function getHotelByListIndex(uint index) public view returns (address, address, string, uint){
        HotelContract memory hotel;
        hotel = HotelList[index];
-       
        return (hotel.ContractAddress, hotel.SupplierAddress, hotel.ContractURI, hotel.Price);
    }
    
    
-  function registerHotel(string dataUri, uint persons) returns (address hotelAddress) {
+  function registerHotel(string dataUri, uint persons) external {
     Hotel newHotel = new Hotel(msg.sender, dataUri, this, HotelPrice, SupplierAddress);
     hotelsIndex[newHotel] = hotels.length;
     hotels.push(newHotel);
@@ -345,8 +342,6 @@ contract WTIndex is AbstractWTIndex {
     
     HotelList.push(hotelContract);
    
-    
-
 	}
 
   /**
