@@ -55,7 +55,10 @@ body {
 
 .donationRequested {
   background: red;
-  color: black
+  color: white;
+  border-radius: 20px;
+  padding: 5px;
+  margin-bottom: 7px;
 }
 
 .SingleRequest-card-1 {

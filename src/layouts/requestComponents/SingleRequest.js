@@ -24,7 +24,9 @@ const styles = {
 };
 
 function SingleRequest(props) {
-  const { classes, donationAddress, donationRequired, web3, amountDonated = 0 } = props;
+  const { classes, donationAddress, donationRequired, getBalance, balanceRemaining = 0 } = props;
+
+  getBalance(donationAddress);
 
   function sendDonation(amount) {
     amount = amount //convert to wei;
@@ -41,10 +43,7 @@ function SingleRequest(props) {
   });
 }
 
- async function getBalance(){
-  const balance = await web3.fromWei(web3.eth.getBalance(donationAddress));
-  console.log("Balance is", balance);
- }
+
 
   return (
     <Card className={classes.card}>
@@ -60,7 +59,8 @@ function SingleRequest(props) {
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             Kurdi Familly:  <div className="donationRequested">$ {donationRequired} USD</div>
-            <Progress percent={88} status="success" />
+            {balanceRemaining}
+            <Progress percent={88} />
           </Typography>
           <div className="donationAddress">Donation Address: {donationAddress}</div>
          
