@@ -24,7 +24,7 @@ class OuterRequest extends Component {
     this.web3 = context.drizzle.web3;
     this.state = {
       sponsorAddress: 0x0,
-      emergencyDetails: {}
+      emergencyDetails: "",
     }
   }
   
