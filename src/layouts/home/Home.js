@@ -98,12 +98,6 @@ class Home extends Component {
     //console.log("The Request array", requests);
   };
 
-  getBalance = async (donationAddress) => {
-    const balance = await this.web3.utils.fromWei(this.web3.eth.getBalance(donationAddress));
-    console.log("Balance is", balance);
-    this.setState({balanceRemaining: balance})
-   }
-
   render() {
     const list = this.state.requestDetails.map((req, i) => {
       return (
@@ -113,8 +107,6 @@ class Home extends Component {
             donationAddress={req[0]}
             dataURI={req[2]}
             donationRequired={req[3]}
-            getBalance={this.getBalance}
-            balanceRemaining={this.state.balanceRemaining}
           />
         </div>
       );

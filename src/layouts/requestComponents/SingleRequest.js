@@ -23,8 +23,15 @@ const styles = {
   },
 };
 
-function SingleRequest(props) {
-  const { classes, donationAddress, donationRequired, balanceRemaining = 0 } = props;
+function SingleRequest(props, context) {
+  const { classes, donationAddress, donationRequired} = props;
+
+  const getBalance = async (donationAddress) => {
+    const balance = await context.drizzle.web3.eth.getBalance(donationAddress);
+    //console.log("Balance is", context.drizzle.web3.utils.fromWei(balance));
+    return context.drizzle.web3.utils.fromWei(balance);
+   }
+   //getBalance(donationAddress);
 
   return (
     <Card className={classes.card}>
@@ -40,7 +47,7 @@ function SingleRequest(props) {
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             Kurdi Familly:  <div className="donationRequested">$ {donationRequired} USD</div>
-            {balanceRemaining}
+            Amount Raised: {getBalance(props.donationAddress)}
             <Progress percent={88} />
           </Typography>
           <div className="donationAddress">Donation Address: {donationAddress}</div>
@@ -61,7 +68,14 @@ function SingleRequest(props) {
 
 }
 
+
+SingleRequest.contextTypes = {
+  drizzle: PropTypes.object
+};
+
 SingleRequest.propTypes = {
+  shelter: PropTypes.object.isRequired,
+  WTIndex: PropTypes.obj,
   classes: PropTypes.object.isRequired,
 };
 
