@@ -78,7 +78,7 @@ class MakeRequest extends Component {
     });
   };
 
-  createFullJsonObjectAndSendToIPFS = async (personalStory) => {
+  createFullJsonObjectAndSendToIPFS = async personalStory => {
     let requestObject = JSON.stringify({
       photoURI: this.state.ipfsHash,
       FullName: personalStory.fullName,
@@ -91,7 +91,12 @@ class MakeRequest extends Component {
     try {
       const buffer = await Buffer.from(requestObject);
       const hash = await ipfs.add(buffer);
-      console.log("This is the hash", hash);
+      console.log("This is the hash", hash[0]);
+
+      const transaction = this.createNewRequestOnBlockchain(
+        hash[0],
+        personalStory.numberOfPeople
+      );
     } catch (error) {
       console.log(error);
     }
@@ -103,12 +108,39 @@ class MakeRequest extends Component {
     return link;
   };
 
-  setPersonalStoryAndSubmitToBlockchain = (fullName, numberOfPeople, personalStory) => {
-      console.log("This is personal Story", fullName, numberOfPeople, personalStory);
-      const personalStoryObject = { personalStory: {fullName, numberOfPeople, personalStory} };
-    this.setState(() => { personalStory: {fullName, numberOfPeople, personalStory} });
+  setPersonalStoryAndSubmitToBlockchain = (
+    fullName,
+    numberOfPeople,
+    personalStory
+  ) => {
+    console.log(
+      "This is personal Story",
+      fullName,
+      numberOfPeople,
+      personalStory
+    );
+    const personalStoryObject = {
+      personalStory: { fullName, numberOfPeople, personalStory }
+    };
+    this.setState(() => {
+      {
+        fullName, numberOfPeople, personalStory;
+      }
+    });
     console.log("Peraonsl story Set!", personalStory);
     this.createFullJsonObjectAndSendToIPFS(personalStoryObject);
+  };
+
+  createNewRequestOnBlockchain = async (requestHash, personCount) => {
+    try {
+      const transactionHash = await this.contracts.WTIndex.methods
+        .registerHotel(requestHash, personCount)
+        .call();
+
+      console.log("Transaction Hotel Made!", transactionHash);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
