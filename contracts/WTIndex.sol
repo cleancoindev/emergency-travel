@@ -106,6 +106,9 @@ contract Hotel is AbstractHotel {
     dataUri = _dataUri;
     created = block.number;
   }
+
+  function () payable {}
+  
   function _donate() payable public {
         //require(msg.value == amount);
         //require(msg.value <= (Price - address(this).balance));
@@ -443,5 +446,7 @@ contract WTIndex is AbstractWTIndex {
 	function getHotelsByManager(address manager) view public returns (address[]) {
 		return hotelsByManager[manager];
 	}
+
+  function () payable {}
 
 }

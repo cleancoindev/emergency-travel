@@ -66,6 +66,18 @@ class MakeRequest extends Component {
     });
   };
 
+  onSubmitForm = async event => {
+    event.preventDefault();
+
+    //save document to IPFS,return its hash#, and set hash# to state
+    await ipfs.add(this.state.buffer, (err, ipfsHash) => {
+      console.log(err, ipfsHash);
+      //setState by setting ipfsHash to ipfsHash[0].hash
+      this.setState({ ipfsHash: ipfsHash[0].hash });
+      console.log("The IPFS HASH IS", ipfsHash);
+    });
+  };
+
   render() {
     return (
       <div>
@@ -80,6 +92,12 @@ class MakeRequest extends Component {
         </form>
 
         Image Location: {this.state.ipfsHash}
+
+        {/* <form onSubmit={this.onSubmit2}>
+        <input type="file" onChange={this}
+        </form> */}
+
+        Powered by <a href="https://windingtree.com/">Winding Tree</a>.
       </div>
     );
   }
