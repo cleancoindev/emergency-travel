@@ -8,6 +8,9 @@ yarn-error.log*
 # firebase
 /Users/dennisonbertram/Documents/StatusHack3/config/dev.js
 
+#secrest
+secrets.js
+
 # Runtime data
 pids
 *.pid
