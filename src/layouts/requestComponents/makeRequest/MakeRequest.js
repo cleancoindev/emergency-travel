@@ -17,6 +17,7 @@ class MakeRequest extends Component {
       transactionHash: "",
       txReceipt: "", 
       personalStory: {},
+      completeHash: "",
     };
   }
 
@@ -80,15 +81,28 @@ class MakeRequest extends Component {
     });
   };
 
+  createFullJsonObjectAndSendToIPFS = async () => {
+  
+    //save document to IPFS,return its hash#, and set hash# to state
+    await ipfs.add(JSON.stringify(this.state), (err, ipfsHash) => {
+      console.log(err, ipfsHash);
+      //setState by setting ipfsHash to ipfsHash[0].hash
+      this.setState({ completeHash: ipfsHash[0].hash });
+      console.log("The IPFS HASH OF Final URI object", ipfsHash[0]);
+    });
+  };
+
   ipfsImage = () => {
       let link = "https://ipfs.io/ipfs/" + this.state.ipfsHash;
       console.log("The link", link);
       return link;
   }
 
-  setPersonalStory = (personalStory) => {
+  setPersonalStoryAndSubmitToBlockchain = (personalStory) => {
     this.setState({personalStory});
     console.log("Peraonsl story Set!", personalStory);
+    this.createFullJsonObjectAndSendToIPFS();
+      
   }
 
   render() {
@@ -107,7 +121,7 @@ class MakeRequest extends Component {
 
     
         
-        <MakeRequestTextForm setPersonalStory={this.setPersonalStory}/>
+        <MakeRequestTextForm setPersonalStory={this.setPersonalStoryAndSubmitToBlockchain}/>
         Powered by <a href="https://windingtree.com/">Winding Tree</a>.
       </div>
     );
