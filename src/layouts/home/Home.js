@@ -5,6 +5,7 @@ import {
   ContractForm
 } from "drizzle-react-components";
 import SponsorBar from "../SponsorComponent/SponsorBar";
+import SingleRequest from "../requestComponents/SingleRequest";
 
 import PropTypes from "prop-types";
 
@@ -118,6 +119,7 @@ class Home extends Component {
             <AccountData accountIndex="0" units="ether" precision="3" />
           </div> */}
           <SponsorBar sponsorAddress={this.state.sponsorAddress} emergencyDetails={this.state.emergencyDetails}/>
+          <SingleRequest/>
           Total Requests: {this.state.requestCount}
           Requests:
           <ol>
