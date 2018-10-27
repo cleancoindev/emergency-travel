@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SponsorBar from "../SponsorComponent/SponsorBar";
 import SingleRequest from "../requestComponents/SingleRequest";
 import DonateButtonContainer from "../requestComponents/donateButton/DonateButtonContainer";
+import MakeRequestContainer from "../requestComponents/makeRequest/MakeRequestContainer";
 
 import PropTypes from "prop-types";
 
@@ -125,6 +126,7 @@ class Home extends Component {
             {list}
           
         </div>
+        <MakeRequestContainer/>
         </div>
       </main>
     );
