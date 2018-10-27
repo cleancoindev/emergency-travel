@@ -57,7 +57,7 @@ class MakeRequestTextForm extends React.Component {
           </div>
           <div className="request-personalStory">
           <label >
-            Personal Story: (why you need this travel)
+            Personal Story:
             <textarea
               name="personalStory"
               value={this.state.personalStory}
@@ -65,7 +65,7 @@ class MakeRequestTextForm extends React.Component {
           </label>
           </div>
         </form>
-        <button type="button" onClick={this.handleSubmit}>Click Me!</button>
+        <button type="button" onClick={this.handleSubmit}>Submit To xDai Blockchain</button>
          </div>
       );
     }

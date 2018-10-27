@@ -124,6 +124,7 @@ box-shadow: 0px 2px 34px -1px rgba(0,0,0,0.26);
   align-items: flex-start;
   margin: 10px;
   border-radius: 3px;
+  align-items: stretch;
 
 }
 
@@ -142,6 +143,15 @@ box-shadow: 0px 2px 34px -1px rgba(0,0,0,0.26);
 .requestTextForm {
   display: flex;
   flex-direction: column;
+}
+
+input {
+    border-style: double;
+    padding: 7px;
+}
+
+.request-personalStory {
+  margin-top: 10px;
 }
 
 .uploadIPFS {
