@@ -66,7 +66,7 @@ class Home extends Component {
   };
 
   getTravelRequests = async () => {
-    //console.log("Inside Get Travel Requests", this.contracts.WTIndex);
+  
     try {
       const requests = await this.contracts.WTIndex.methods.getHotels().call();
       console.log("The travel request array: ", requests);
@@ -77,7 +77,7 @@ class Home extends Component {
   };
 
   getTravelRequestDetail = async num => {
-    console.log("REquest Number:", num);
+ 
     let requests = [];
     for (let x = 0; x < num-1; x++){
     try {
@@ -89,7 +89,7 @@ class Home extends Component {
     } catch (error) {
       console.log(error);
     }
-    console.log("The Requests", requests);
+ 
     this.setState({requestDetails: requests});
 
   }

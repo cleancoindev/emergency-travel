@@ -21,7 +21,6 @@ const styles = {
 
 function SingleRequest(props) {
   const { classes, donationAddress, donationRequired } = props;
-  console.log("Donation Address", donationAddress);
   return (
     <Card className={classes.card}>
       <CardActionArea>
