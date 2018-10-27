@@ -92,7 +92,7 @@ max-width: 75vw;
   width: 95%;
 }
 
-request-count {
+.request-count {
   background: red;
   font-size: 2em;
   color: white;

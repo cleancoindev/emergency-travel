@@ -14,7 +14,7 @@ class Home extends Component {
     this.web3 = context.drizzle.web3;
     this.state = {
       sponsorAddress: 0x0,
-      emergencyDetails: {},
+      emergencyDetails: "",
       getHotelsLength: 0,
       dataKeys: [],
       requestCount: 0,
@@ -32,6 +32,7 @@ class Home extends Component {
     console.log("This.drizzle.contracts", this.contracts.WTIndex);
     this.getTravelReqestCount();
     this.setOwner();
+    this.getEmergencyDetails();
     //this.getTravelRequests();
   }
 
@@ -55,6 +56,16 @@ class Home extends Component {
       console.log(error);
     }
   };
+
+  getEmergencyDetails = async () => {
+    try {
+      const emergencyDetails = await this.contracts.WTIndex.methods.dataURI().call();
+      console.log("The details are:", details);
+      this.setState({emergencyDetails})
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   getTravelReqestCount = async () => {
     //console.log("Inside Get Travel Requests", this.contracts.WTIndex);

@@ -67,11 +67,11 @@ class SingleRequest extends Component {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Kurdi Familly:  <div className="donationRequested">$ {this.props.donationRequired} USD</div>
+            Kurdi Familly  <div className="donationRequested">$ {this.props.donationRequired} USD</div>
             Amount Raised: {this.state.donationBalance}
             <Progress percent={this.state.percentFinished} />
           </Typography>
-          <div className="donationAddress">Donation Address: {this.props.donationAddress}</div>
+          <div className="donationAddress">Donation Address: <a href={"https://blockscout.com/poa/dai/address/"+this.props.donationAddress}>{this.props.donationAddress}</a></div>
          
           <Typography component="p">
             3 years old Boy. Kurdish background escaping Syrian War. Attempting to reach Canada, first tried to sail from Bodrum in Turkey. Kurdi family paid $5,860 for their four spaces on the boat.
