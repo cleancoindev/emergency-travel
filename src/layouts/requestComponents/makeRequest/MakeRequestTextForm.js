@@ -10,6 +10,7 @@ class MakeRequestTextForm extends React.Component {
       };
   
       this.handleInputChange = this.handleInputChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
     }
   
     handleInputChange(event) {
@@ -21,9 +22,17 @@ class MakeRequestTextForm extends React.Component {
         [name]: value
       });
     }
+
+    handleSubmit(event) {
+        alert('A name was submitted: ' + this.state.fullName);
+        event.preventDefault();
+        this.props.setPersonalStory(this.state);
+        
+      }
   
     render() {
       return (
+          <div className="formDetails">
         <form>
           <label>
             Full Name:
@@ -50,6 +59,8 @@ class MakeRequestTextForm extends React.Component {
               onChange={this.handleInputChange} />
           </label>
         </form>
+        <button type="button" onClick={this.handleSubmit}>Click Me!</button>
+         </div>
       );
     }
   }

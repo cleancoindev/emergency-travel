@@ -15,7 +15,8 @@ class MakeRequest extends Component {
       buffer: "",
       ethAddress: "",
       transactionHash: "",
-      txReceipt: ""
+      txReceipt: "", 
+      personalStory: {},
     };
   }
 
@@ -85,6 +86,11 @@ class MakeRequest extends Component {
       return link;
   }
 
+  setPersonalStory = (personalStory) => {
+    this.setState({personalStory});
+    console.log("Peraonsl story Set!", personalStory);
+  }
+
   render() {
     return (
       <div>
@@ -101,7 +107,7 @@ class MakeRequest extends Component {
 
     
         
-        <MakeRequestTextForm />
+        <MakeRequestTextForm setPersonalStory={this.setPersonalStory}/>
         Powered by <a href="https://windingtree.com/">Winding Tree</a>.
       </div>
     );
