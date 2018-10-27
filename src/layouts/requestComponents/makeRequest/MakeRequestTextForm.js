@@ -34,7 +34,8 @@ class MakeRequestTextForm extends React.Component {
       return (
           <div className="formDetails">
         <form>
-          <label>
+            
+          <label className="request-fullname">
             Full Name:
             <input
               name="fullName"
@@ -43,7 +44,7 @@ class MakeRequestTextForm extends React.Component {
               onChange={this.handleInputChange} />
           </label>
           <br />
-          <label>
+          <label className="request-PersonCount">
             Number of People:
             <input
               name="numberOfPeople"
@@ -51,8 +52,8 @@ class MakeRequestTextForm extends React.Component {
               value={this.state.numberOfPeople}
               onChange={this.handleInputChange} />
           </label>
-          <label>
-            Number of People:
+          <label className="request-personalStory">
+            Personal Story: (why you need this travel)
             <textarea
               name="personalStory"
               value={this.state.personalStory}

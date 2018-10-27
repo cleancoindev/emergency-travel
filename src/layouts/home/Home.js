@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SponsorBar from "../SponsorComponent/SponsorBar";
 import SingleRequest from "../requestComponents/SingleRequest";
+import { Link } from "react-router-dom";
 import DonateButtonContainer from "../requestComponents/donateButton/DonateButtonContainer";
 import MakeRequestContainer from "../requestComponents/makeRequest/MakeRequestContainer";
 
@@ -127,10 +128,14 @@ class Home extends Component {
                 emergencyDetails={this.state.emergencyDetails}
               />
             </div>
-            Families in Danger: {this.state.requestCount}
-            {list}
+            <div className="menu"><Link to="/request/">Request</Link></div>
+            <div className="request-count">
+            Donation Requests: {this.state.requestCount}
+            </div>
+            <div className="request-list">{list}</div>
+            
           </div>
-          <MakeRequestContainer />
+          
         </div>
       </main>
     );

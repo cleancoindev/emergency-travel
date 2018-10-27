@@ -16,6 +16,7 @@ const styles = {
   card: {
      maxWidth: 345,
      
+     
   },
   media: {
     // ⚠️ object-fit is not supported by IE11.
@@ -40,7 +41,7 @@ class SingleRequest extends Component {
     let donationBalance = await this.context.drizzle.web3.utils.fromWei(balance);
     console.log("Donation Balance: ", donationBalance);
 
-    let percentFinished = (donationBalance/this.props.donationRequired)*100;
+    let percentFinished = Math.floor((donationBalance/this.props.donationRequired)*100);
     console.log("Percent Finished", percentFinished);
     this.setState({donationBalance, percentFinished});
     

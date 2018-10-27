@@ -17,7 +17,8 @@ class MakeRequest extends Component {
       transactionHash: "",
       txReceipt: "",
       personalStory: {},
-      completeHash: ""
+      completeHash: "",
+      
     };
   }
 
@@ -128,18 +129,19 @@ class MakeRequest extends Component {
         fullName, numberOfPeople, personalStory;
       }
     });
-    console.log("Peraonsl story Set!", personalStory);
+    //console.log("Peraonsl story Set!", personalStory);
     this.createFullJsonObjectAndSendToIPFS(personalStoryObject);
   };
 
-  createNewRequestOnBlockchain = async (requestHash, personCount = 1) => {
+  createNewRequestOnBlockchain = async (requestHash, personCount) => {
       console.log("What is request hash?", requestHash.hash, "and Count?", personCount);
     try {
       const transactionHash = await this.contracts.WTIndex.methods
         .registerHotel(requestHash.hash, personCount)
         .send();
 
-      console.log("Transaction Hotel Made!", transactionHash);
+        this.setState({transactionHash});
+      //console.log("Transaction Hotel Made!", transactionHash);
     } catch (error) {
       console.log(error);
     }
@@ -147,8 +149,8 @@ class MakeRequest extends Component {
 
   render() {
     return (
-      <div>
-        <div>Upload to IPFS Request</div>
+      <div className="requestContainer">
+        <div className="uploadIPFS">Upload to IPFS Request</div>
         <div className="uploadImageBox">
           {this.state.ipfsHash ? (
             <img className="uploadedImage" src={this.ipfsImage()} />
@@ -156,15 +158,19 @@ class MakeRequest extends Component {
             <h3> Upload Photo: </h3>
           )}
         </div>
+        <div className="submitImage">
         <form onSubmit={this.onSubmit}>
           <input type="file" onChange={this.captureFile} />
           <Button bsStyle="primary" type="submit">
             UpLoad
           </Button>
         </form>
+        </div>
+        <div className="requestTextForm" >
         <MakeRequestTextForm
           setPersonalStory={this.setPersonalStoryAndSubmitToBlockchain}
         />
+        </div>
         Powered by <a href="https://windingtree.com/">Winding Tree</a>.
       </div>
     );
