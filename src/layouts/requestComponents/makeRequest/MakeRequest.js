@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ipfs from "../../home/ipfs/ipfs";
-import { Button } from 'reactstrap';
-import MakeRequestTextForm from './MakeRequestTextForm';
+import { Button } from "reactstrap";
+import MakeRequestTextForm from "./MakeRequestTextForm";
 
 import PropTypes from "prop-types";
 
@@ -15,9 +15,9 @@ class MakeRequest extends Component {
       buffer: "",
       ethAddress: "",
       transactionHash: "",
-      txReceipt: "", 
+      txReceipt: "",
       personalStory: {},
-      completeHash: "",
+      completeHash: ""
     };
   }
 
@@ -29,10 +29,8 @@ class MakeRequest extends Component {
     let reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
     reader.onloadend = () => this.convertToBuffer(reader);
-    
   };
 
-  //Convert the file to buffer to store on IPFS
   convertToBuffer = async reader => {
     //file is converted to a buffer for upload to IPFS
     const buffer = await Buffer.from(reader.result);
@@ -40,7 +38,6 @@ class MakeRequest extends Component {
     this.setState({ buffer });
   };
 
-  //ES6 async function
   onClick = async () => {
     try {
       this.setState({ blockNumber: "waiting.." });
@@ -82,35 +79,42 @@ class MakeRequest extends Component {
   };
 
   createFullJsonObjectAndSendToIPFS = async () => {
-  
-    //save document to IPFS,return its hash#, and set hash# to state
-    await ipfs.add(JSON.stringify(this.state), (err, ipfsHash) => {
-      console.log(err, ipfsHash);
-      //setState by setting ipfsHash to ipfsHash[0].hash
-      this.setState({ completeHash: ipfsHash[0].hash });
-      console.log("The IPFS HASH OF Final URI object", ipfsHash[0]);
+    let requestObject = JSON.stringify({
+      photoURI: this.state.ipfsHash,
+      requestInfo: JSON.stringify(this.state.personalStory)
     });
+
+    try {
+      const buffer = await Buffer.from(requestObject);
+      const hash = await ipfs.add(buffer);
+      console.log("This is the hash", hash);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   ipfsImage = () => {
-      let link = "https://ipfs.io/ipfs/" + this.state.ipfsHash;
-      console.log("The link", link);
-      return link;
-  }
+    let link = "https://ipfs.io/ipfs/" + this.state.ipfsHash;
+    console.log("The link", link);
+    return link;
+  };
 
-  setPersonalStoryAndSubmitToBlockchain = (personalStory) => {
-    this.setState({personalStory});
+  setPersonalStoryAndSubmitToBlockchain = personalStory => {
+    this.setState({ personalStory });
     console.log("Peraonsl story Set!", personalStory);
     this.createFullJsonObjectAndSendToIPFS();
-      
-  }
+  };
 
   render() {
     return (
       <div>
         <div>Upload to IPFS Request</div>
         <div className="uploadImageBox">
-        {this.state.ipfsHash ? <img className="uploadedImage" src={this.ipfsImage()} /> : <h3> Upload Photo:  </h3>}
+          {this.state.ipfsHash ? (
+            <img className="uploadedImage" src={this.ipfsImage()} />
+          ) : (
+            <h3> Upload Photo: </h3>
+          )}
         </div>
         <form onSubmit={this.onSubmit}>
           <input type="file" onChange={this.captureFile} />
@@ -118,10 +122,9 @@ class MakeRequest extends Component {
             UpLoad
           </Button>
         </form>
-
-    
-        
-        <MakeRequestTextForm setPersonalStory={this.setPersonalStoryAndSubmitToBlockchain}/>
+        <MakeRequestTextForm
+          setPersonalStory={this.setPersonalStoryAndSubmitToBlockchain}
+        />
         Powered by <a href="https://windingtree.com/">Winding Tree</a>.
       </div>
     );
