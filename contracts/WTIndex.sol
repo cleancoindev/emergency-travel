@@ -327,7 +327,7 @@ contract WTIndex is AbstractWTIndex {
    }
    
    
-  function registerHotel(string dataUri) returns (address hotelAddress) {
+  function registerHotel(string dataUri, uint persons) returns (address hotelAddress) {
     Hotel newHotel = new Hotel(msg.sender, dataUri, this, HotelPrice, SupplierAddress);
     hotelsIndex[newHotel] = hotels.length;
     hotels.push(newHotel);
@@ -340,6 +340,7 @@ contract WTIndex is AbstractWTIndex {
     hotelContract.ContractAddress = newHotel;
     hotelContract.SupplierAddress = SupplierAddress;
     hotelContract.ContractURI = dataUri;
+    hotelContract.Price = HotelPrice*persons;
     
     
     HotelList.push(hotelContract);
