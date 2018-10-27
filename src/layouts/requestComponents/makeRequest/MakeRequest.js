@@ -93,7 +93,8 @@ class MakeRequest extends Component {
       const hash = await ipfs.add(buffer);
       console.log("This is the hash", hash[0]);
 
-      const transaction = this.createNewRequestOnBlockchain(
+      console.log("This is the headcount sent to make transaction", personalStory.numberOfPeople)
+      this.createNewRequestOnBlockchain(
         hash[0],
         personalStory.numberOfPeople
       );
@@ -131,11 +132,12 @@ class MakeRequest extends Component {
     this.createFullJsonObjectAndSendToIPFS(personalStoryObject);
   };
 
-  createNewRequestOnBlockchain = async (requestHash, personCount) => {
+  createNewRequestOnBlockchain = async (requestHash, personCount = 1) => {
+      console.log("What is request hash?", requestHash.hash, "and Count?", personCount);
     try {
       const transactionHash = await this.contracts.WTIndex.methods
-        .registerHotel(requestHash, personCount)
-        .call();
+        .registerHotel(requestHash.hash, personCount)
+        .send();
 
       console.log("Transaction Hotel Made!", transactionHash);
     } catch (error) {
