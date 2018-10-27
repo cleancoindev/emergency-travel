@@ -40,7 +40,7 @@ class OuterRequest extends Component {
       const sponsorAddress = await this.contracts.WTIndex.methods
         .owner()
         .call();
-      console.log("The owner is:", sponsorAddress);
+      
       this.setState({ sponsorAddress });
     } catch (error) {
       console.log(error);

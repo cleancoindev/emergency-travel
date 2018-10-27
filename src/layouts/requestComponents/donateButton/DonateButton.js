@@ -34,11 +34,11 @@ class DonateButton extends Component {
     let nonce = await this.web3.eth.getTransactionCount(
       this.state.userAddress[0]
     );
-    console.log("The Nonce is:", nonce);
+    
     const amount = this.state.amountToDonate.toString();
 
     const amountInWei = this.web3.utils.toWei(amount, "ether");
-    console.log("The amount", amountInWei);
+    
 
     const transactionHash = await this.web3.eth.sendTransaction(
         {

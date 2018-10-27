@@ -39,16 +39,16 @@ class SingleRequest extends Component {
     const balance = await this.context.drizzle.web3.eth.getBalance(
       this.props.donationAddress
     );
-    //console.log("Balance is", context.drizzle.web3.utils.fromWei(balance));
+   
     let donationBalance = await this.context.drizzle.web3.utils.fromWei(
       balance
     );
-    console.log("Donation Balance: ", donationBalance);
+    
 
     let percentFinished = Math.floor(
       (donationBalance / this.props.donationRequired) * 100
     );
-    console.log("Percent Finished", percentFinished);
+    
     this.setState({ donationBalance, percentFinished });
   };
 
@@ -56,7 +56,7 @@ class SingleRequest extends Component {
     uri = "QmZNwyZdfxm52Ru7so8DdZ9x5orb2oPiH61rVwduKad4Cb"
   ) => {
     const ipfsLink = "https://ipfs.io/ipfs/" + uri;
-    console.log("The URI is:", ipfsLink);
+    
 
     try {
       const dataObject = await axios.get(ipfsLink);
@@ -83,7 +83,7 @@ class SingleRequest extends Component {
       numberOfPeople = this.state.ipfsURI.Story.numberOfPeople;
       personalStory = this.state.ipfsURI.Story.personalStory;
 
-      console.log("The fullname is", fullName);
+     
     }
     return (
       <Card className={this.props.classes.card}>
