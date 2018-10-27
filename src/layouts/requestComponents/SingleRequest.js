@@ -9,6 +9,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import DonateButtonContainer from '../requestComponents/donateButton/DonateButtonContainer';
+import { Progress } from 'react-sweet-progress';
+import "react-sweet-progress/lib/style.css";
 
 const styles = {
   card: {
@@ -58,7 +60,7 @@ function SingleRequest(props) {
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             Kurdi Familly: 
-            Amount Donated: $-add later-
+            <Progress percent={88} status="success" />
           </Typography>
           <div className="donationAddress">Donation Address: {donationAddress}</div>
           <div className="donationRequested">Donation Requested: {donationRequired} USD</div>

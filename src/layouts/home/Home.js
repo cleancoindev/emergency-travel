@@ -118,8 +118,9 @@ class Home extends Component {
             ACCOUNT FUNDS:{" "}
             <AccountData accountIndex="0" units="ether" precision="3" />
           </div> */}
+          <div className="sponsorBar">
           <SponsorBar sponsorAddress={this.state.sponsorAddress} emergencyDetails={this.state.emergencyDetails}/>
-          
+          </div>
           Total Requests: {this.state.requestCount}
           Requests:
           
