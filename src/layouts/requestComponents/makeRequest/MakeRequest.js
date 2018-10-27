@@ -82,8 +82,9 @@ class MakeRequest extends Component {
     return (
       <div>
         <div>Upload to IPFS Request</div>
-
-        <h3> Upload Photo:  </h3>
+        <div className="uploadImageBox">
+        {this.state.ipfsHash ? <img src={"https://ipfs.io/ipfs/" + this.state.ipfsHash} /> : <h3> Upload Photo:  </h3>}
+        </div>
         <form onSubmit={this.onSubmit}>
           <input type="file" onChange={this.captureFile} />
           <Button bsStyle="primary" type="submit">
@@ -91,7 +92,7 @@ class MakeRequest extends Component {
           </Button>
         </form>
 
-        Image Location: {this.state.ipfsHash}
+        {/* Image Location: {this.state.ipfsHash} */}
 
         {/* <form onSubmit={this.onSubmit2}>
         <input type="file" onChange={this}

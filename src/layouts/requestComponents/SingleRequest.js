@@ -13,6 +13,7 @@ import DonateButtonContainer from '../requestComponents/donateButton/DonateButto
 const styles = {
   card: {
      maxWidth: 345,
+     
   },
   media: {
     // ⚠️ object-fit is not supported by IE11.
@@ -59,8 +60,8 @@ function SingleRequest(props) {
             Kurdi Familly: 
             Amount Donated: $-add later-
           </Typography>
-          Donation Address: {donationAddress}
-          Donation Required: {donationRequired}
+          <div className="donationAddress">Donation Address: {donationAddress}</div>
+          <div className="donationRequested">Donation Requested: {donationRequired} USD</div>
           <Typography component="p">
             3 years old Boy. Kurdish background escaping Syrian War. Attempting to reach Canada, first tried to sail from Bodrum in Turkey. Kurdi family paid $5,860 for their four spaces on the boat.
           </Typography>

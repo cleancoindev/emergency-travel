@@ -39,3 +39,22 @@ border-bottom: black;
 .requests {
   margin: 1px;
 }
+.donationAddress {
+  border-style: solid;
+  border-width: 1px;
+  border-color: red;
+  font-size: .3em;
+  padding: 2px;
+  margin-bottom: 3px;
+}
+
+.donationRequested {
+  background: red;
+  color: black
+}
+
+.SingleRequest-card-1 {
+  -webkit-box-shadow: 0px 2px 34px -1px rgba(0,0,0,0.26);
+-moz-box-shadow: 0px 2px 34px -1px rgba(0,0,0,0.26);
+box-shadow: 0px 2px 34px -1px rgba(0,0,0,0.26);
+}
