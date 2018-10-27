@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -23,34 +23,54 @@ const styles = {
   },
 };
 
-function SingleRequest(props, context) {
-  const { classes, donationAddress, donationRequired} = props;
+class SingleRequest extends Component {
+  constructor(props, context){
+    super(props, context);
+    this.state = {
+      donationBalance: 0,
+      percentFinished: 0,
+    }
+  }
+  
+  //const { classes, donationAddress, donationRequired} = this.props;
 
-  const getBalance = async (donationAddress) => {
-    const balance = await context.drizzle.web3.eth.getBalance(donationAddress);
+  getBalance = async () => {
+    const balance = await this.context.drizzle.web3.eth.getBalance(this.props.donationAddress);
     //console.log("Balance is", context.drizzle.web3.utils.fromWei(balance));
-    return context.drizzle.web3.utils.fromWei(balance);
-   }
-   //getBalance(donationAddress);
+    let donationBalance = await this.context.drizzle.web3.utils.fromWei(balance);
+    console.log("Donation Balance: ", donationBalance);
 
+    let percentFinished = (donationBalance/this.props.donationRequired)*100;
+    console.log("Percent Finished", percentFinished);
+    this.setState({donationBalance, percentFinished});
+    
+   }
+
+   
+   componentDidMount() {
+
+    this.getBalance();
+   }
+
+   render() {
   return (
-    <Card className={classes.card}>
+    <Card className={this.props.classes.card}>
       <CardActionArea>
         <CardMedia
           component="img"
           alt="Alan Kurdi"
-          className={classes.media}
+          className={this.props.classes.media}
           height="340"
           image="https://www.nexofin.com/archivos/2015/09/sirios.jpg"
           title="Kurdi Familly"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Kurdi Familly:  <div className="donationRequested">$ {donationRequired} USD</div>
-            Amount Raised: {getBalance(props.donationAddress)}
-            <Progress percent={88} />
+            Kurdi Familly:  <div className="donationRequested">$ {this.props.donationRequired} USD</div>
+            Amount Raised: {this.state.donationBalance}
+            <Progress percent={this.state.percentFinished} />
           </Typography>
-          <div className="donationAddress">Donation Address: {donationAddress}</div>
+          <div className="donationAddress">Donation Address: {this.props.donationAddress}</div>
          
           <Typography component="p">
             3 years old Boy. Kurdish background escaping Syrian War. Attempting to reach Canada, first tried to sail from Bodrum in Turkey. Kurdi family paid $5,860 for their four spaces on the boat.
@@ -58,14 +78,14 @@ function SingleRequest(props, context) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <DonateButtonContainer donationAddress={donationAddress}/>
+        <DonateButtonContainer donationAddress={this.props.donationAddress}/>
         
           Amount Donated: 
         
       </CardActions>
     </Card>
   );
-
+  }
 }
 
 
