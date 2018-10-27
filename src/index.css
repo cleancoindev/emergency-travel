@@ -92,14 +92,16 @@ max-width: 75vw;
   width: 95%;
 }
 
-.request-count {
-  background: orange;
+request-count {
+  background: red;
   font-size: 2em;
   color: white;
   border-radius: 18px;
   /* margin-right: 8px; */
-  padding-left: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
   margin: 5px;
+  align-self: center;
 }
 
 .uploadImageBox {

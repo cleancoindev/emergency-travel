@@ -14,7 +14,7 @@ import "react-sweet-progress/lib/style.css";
 
 const styles = {
   card: {
-     maxWidth: 345,
+    //  maxWidth: 345,
      
      
   },
