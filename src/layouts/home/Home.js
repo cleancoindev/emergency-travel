@@ -19,7 +19,7 @@ class Home extends Component {
       requestCount: 0,
       requests: [],
       requestDetails: [],
-      balanceRemaining: 0,
+      balanceRemaining: 0
     };
   }
 
@@ -98,26 +98,34 @@ class Home extends Component {
     //console.log("The Request array", requests);
   };
 
-  getBalance = async (donationAddress) => {
-    const balance = await this.web3.utils.fromWei(this.web3.eth.getBalance(donationAddress));
-    console.log("Balance is", balance);
-    this.setState({balanceRemaining: balance});
-   }
+  getBalance = async donationAddress => {
+    try {
+      const balance = await this.web3.eth.getBalance(donationAddress);
+
+      console.log("Balance is", balance);
+      //this.setState({ balanceRemaining: balance });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   render() {
-    const list = this.state.requestDetails.map((req, i) => {
-      return (
-        <div className="SingleRequest">
-          <SingleRequest
-            key={i}
-            donationAddress={req[0]}
-            dataURI={req[2]}
-            donationRequired={req[3]}
-            getBalance={this.getBalance}
-            balanceRemaining={this.state.balanceRemaining}
-          />
-        </div>
-      );
+    const list = this.state.requestDetails.map(async (req, i) => {
+      try {
+        const balance = await this.web3.eth.getBalance(req[0]);
+        return (
+          <div className="SingleRequest">
+            <SingleRequest
+              key={i}
+              donationAddress={req[0]}
+              dataURI={req[2]}
+              donationRequired={req[3]}
+              getBalance={this.getBalance}
+              balanceRemaining={balance}
+            />
+          </div>
+        );
+      } catch (error) {}
     });
 
     return (

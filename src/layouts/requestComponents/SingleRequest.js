@@ -24,26 +24,7 @@ const styles = {
 };
 
 function SingleRequest(props) {
-  const { classes, donationAddress, donationRequired, getBalance, balanceRemaining = 0 } = props;
-
-  getBalance(donationAddress);
-
-  function sendDonation(amount) {
-    amount = amount //convert to wei;
-    web3.eth.getAccounts(function(error, result) {
-    web3.eth.sendTransaction(
-        {from:web3.eth.accounts[0],
-        to:"0x943",
-        value:  amount, 
-        data: "0xdf"
-            }, function(err, transactionHash) {
-      if (!err)
-        console.log(transactionHash + " success"); 
-    });
-  });
-}
-
-
+  const { classes, donationAddress, donationRequired, balanceRemaining = 0 } = props;
 
   return (
     <Card className={classes.card}>
