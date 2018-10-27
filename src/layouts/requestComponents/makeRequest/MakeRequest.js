@@ -78,11 +78,15 @@ class MakeRequest extends Component {
     });
   };
 
-  createFullJsonObjectAndSendToIPFS = async () => {
+  createFullJsonObjectAndSendToIPFS = async (personalStory) => {
     let requestObject = JSON.stringify({
       photoURI: this.state.ipfsHash,
-      requestInfo: JSON.stringify(this.state.personalStory)
+      FullName: personalStory.fullName,
+      HeadCount: personalStory.numberOfPeople,
+      Story: personalStory.personalStory
     });
+
+    console.log("This is the stringified object", requestObject);
 
     try {
       const buffer = await Buffer.from(requestObject);
@@ -99,10 +103,12 @@ class MakeRequest extends Component {
     return link;
   };
 
-  setPersonalStoryAndSubmitToBlockchain = personalStory => {
-    this.setState({ personalStory });
+  setPersonalStoryAndSubmitToBlockchain = (fullName, numberOfPeople, personalStory) => {
+      console.log("This is personal Story", fullName, numberOfPeople, personalStory);
+      const personalStoryObject = { personalStory: {fullName, numberOfPeople, personalStory} };
+    this.setState(() => { personalStory: {fullName, numberOfPeople, personalStory} });
     console.log("Peraonsl story Set!", personalStory);
-    this.createFullJsonObjectAndSendToIPFS();
+    this.createFullJsonObjectAndSendToIPFS(personalStoryObject);
   };
 
   render() {

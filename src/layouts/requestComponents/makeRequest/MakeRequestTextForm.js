@@ -24,9 +24,9 @@ class MakeRequestTextForm extends React.Component {
     }
 
     handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.fullName);
+        console.log('A name was submitted: ' + this.state);
         event.preventDefault();
-        this.props.setPersonalStory(this.state);
+        this.props.setPersonalStory(this.state.fullName, this.state.numberOfPeople, this.state.personalStory);
         
       }
   

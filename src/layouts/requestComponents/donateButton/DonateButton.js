@@ -59,8 +59,7 @@ class DonateButton extends Component {
   }
 
   componentDidMount() {
-    console.log("Web3 in Donate Button", this.web3);
-    console.log("The user ADdress", this.state.userAddress);
+
   }
 
   render() {
