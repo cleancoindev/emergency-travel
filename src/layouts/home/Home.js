@@ -141,7 +141,8 @@ class Home extends Component {
             </div>
             <div className="menu"><Link to="/request/">Request</Link></div>
             <div className="request-count">
-            Donation Requests: {this.state.requestCount}
+            
+            Donation Requests: {this.state.requestCount-1}
             </div>
             <div className="request-list">{list}</div>
             
