@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SponsorBar from "../SponsorComponent/SponsorBar";
 import SingleRequest from "../requestComponents/SingleRequest";
+import DonateButtonContainer from "../requestComponents/donateButton/DonateButtonContainer";
 
 import PropTypes from "prop-types";
 

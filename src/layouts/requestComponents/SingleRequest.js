@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import DonateButtonContainer from '../requestComponents/donateButton/DonateButtonContainer';
 
 const styles = {
   card: {
@@ -20,7 +21,23 @@ const styles = {
 };
 
 function SingleRequest(props) {
-  const { classes, donationAddress, donationRequired } = props;
+  const { classes, donationAddress, donationRequired, web3 } = props;
+
+  function sendDonation(amount) {
+    amount = amount //convert to wei;
+    web3.eth.getAccounts(function(error, result) {
+    web3.eth.sendTransaction(
+        {from:web3.eth.accounts[0],
+        to:"0x943",
+        value:  amount, 
+        data: "0xdf"
+            }, function(err, transactionHash) {
+      if (!err)
+        console.log(transactionHash + " success"); 
+    });
+});
+}
+
   return (
     <Card className={classes.card}>
       <CardActionArea>
@@ -44,9 +61,7 @@ function SingleRequest(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
+        <DonateButtonContainer/>
         <Button size="small" color="primary">
           Learn More
         </Button>
