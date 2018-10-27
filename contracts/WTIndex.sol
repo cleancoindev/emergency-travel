@@ -79,10 +79,7 @@ contract Hotel is AbstractHotel {
    // Additional Functionality
     uint RoomSupply = 0;
 
-  //Zero Equals Offer, so it means someone is OFFERING this.
-  //One Euqal Request, so this is for people REQUEST this.
 
-    uint OfferOrRequest = 0;
     uint Price = 0;
 
     uint donationTotal = 0;
@@ -95,13 +92,10 @@ contract Hotel is AbstractHotel {
   //Service Provider is the place the funds are transfered when The donation Total is Reached.
     address public ServiceProvider;
 
-  constructor(address _manager, string _dataUri, address _index, uint _OfferOrRequest, uint _Price, address _ServiceProvider) public {
+  constructor(address _manager, string _dataUri, address _index, uint _Price, address _ServiceProvider) public {
     require(_manager != address(0));
     require(_index != address(0));
     
-    if(_OfferOrRequest == 1){
-      require (_ServiceProvider != address(0x0));
-      }
 
     require(bytes(_dataUri).length != 0);
     
@@ -231,7 +225,9 @@ contract AbstractWTIndex is Ownable, AbstractBaseContract {
   mapping(address => uint) public hotelsByManagerIndex;
   address public LifToken;
 
-  function registerHotel(string dataUri, uint _OfferOrRequest, uint _Price, address ServiceProvider) returns(address);
+
+
+  function registerHotel(string dataUri) returns(address);
   function deleteHotel(address hotel) external;
   function callHotel(address hotel, bytes data) external;
   function transferHotel(address hotel, address newManager) external;
@@ -239,7 +235,7 @@ contract AbstractWTIndex is Ownable, AbstractBaseContract {
   function getHotels() view public returns (address[]);
   function getHotelsByManager(address manager) view public returns (address[]);
 
-  event HotelRegistered(address hotel, uint managerIndex, uint allIndex, uint _OfferOrRequest, address ServiceProvider);
+  event HotelRegistered(address hotel, uint managerIndex, uint allIndex, address ServiceProvider);
   event HotelDeleted(address hotel, uint managerIndex, uint allIndex);
   event HotelCalled(address hotel);
   event HotelTransferred(address hotel, address previousManager, address newManager);
@@ -261,11 +257,22 @@ contract WTIndex is AbstractWTIndex {
 
   // Address of the LifToken contract
   address public LifToken;
+  
+  // Struct for Hotels/Request created
+ 
+  
+  uint HotelPrice;
+  
+  HotelContract[] public HotelList;
+  
+  address public SupplierAddress;
+  
+  string public DataUri;
 
   /**
    * @dev Event triggered every time hotel is registered
    */
-  event HotelRegistered(address hotel, uint managerIndex, uint allIndex, uint _OfferOrRequest, address ServiceProvider);
+  event HotelRegistered(address hotel, uint managerIndex, uint allIndex, address ServiceProvider);
   /**
    * @dev Event triggered every time hotel is deleted
    */
@@ -283,8 +290,11 @@ contract WTIndex is AbstractWTIndex {
   /**
    * @dev Constructor. Creates the `WTIndex` contract
    */
-	constructor() public {
+	constructor(uint _price, string _dataUri) public {
 		hotels.length ++;
+		SupplierAddress = msg.sender;
+		HotelPrice = _price;
+		DataUri = _dataUri;
 	}
 
   /**
@@ -301,14 +311,41 @@ contract WTIndex is AbstractWTIndex {
    * Emits `HotelRegistered` on success.
    * @param  dataUri Hotel's data pointer
    */
-  function registerHotel(string dataUri, uint _OfferOrRequest, uint _Price, address ServiceProvider) returns (address hotelAddress) {
-    Hotel newHotel = new Hotel(msg.sender, dataUri, this, _OfferOrRequest, _Price, ServiceProvider);
+   
+    struct HotelContract {
+      address ContractAddress;
+      address SupplierAddress;
+      string ContractURI;
+      uint Price;
+  }
+   
+   function getHotelByListIndex(uint index) public view returns (address, address, string, uint){
+       HotelContract memory hotel;
+       hotel = HotelList[index];
+       
+       return (hotel.ContractAddress, hotel.SupplierAddress, hotel.ContractURI, hotel.Price);
+   }
+   
+   
+  function registerHotel(string dataUri) returns (address hotelAddress) {
+    Hotel newHotel = new Hotel(msg.sender, dataUri, this, HotelPrice, SupplierAddress);
     hotelsIndex[newHotel] = hotels.length;
     hotels.push(newHotel);
     hotelsByManagerIndex[newHotel] = hotelsByManager[msg.sender].length;
     hotelsByManager[msg.sender].push(newHotel);
-    emit HotelRegistered(newHotel, hotelsByManagerIndex[newHotel], hotelsIndex[newHotel], _OfferOrRequest, ServiceProvider);
-    return newHotel;
+    emit HotelRegistered(newHotel, hotelsByManagerIndex[newHotel], hotelsIndex[newHotel], SupplierAddress);
+    
+    HotelContract memory hotelContract;
+    
+    hotelContract.ContractAddress = newHotel;
+    hotelContract.SupplierAddress = SupplierAddress;
+    hotelContract.ContractURI = dataUri;
+    
+    
+    HotelList.push(hotelContract);
+   
+    
+
 	}
 
   /**
