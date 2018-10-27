@@ -59,8 +59,8 @@ class Home extends Component {
 
   getEmergencyDetails = async () => {
     try {
-      const emergencyDetails = await this.contracts.WTIndex.methods.dataURI().call();
-      console.log("The details are:", details);
+      const emergencyDetails = await this.contracts.WTIndex.methods.DataUri().call();
+      console.log("The details are:", emergencyDetails);
       this.setState({emergencyDetails})
     } catch (error) {
       console.log(error)
