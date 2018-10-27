@@ -4,6 +4,8 @@ import {
   ContractData,
   ContractForm
 } from "drizzle-react-components";
+import SponsorBar from "../SponsorComponent/SponsorBar";
+
 import PropTypes from "prop-types";
 
 class Home extends Component {
@@ -12,6 +14,8 @@ class Home extends Component {
     this.contracts = context.drizzle.contracts;
     this.web3 = context.drizzle.web3;
     this.state = {
+      sponsorAddress: 0x0,
+      emergencyDetails: {},
       getHotelsLength: 0,
       dataKeys: [],
       requestCount: 0,
@@ -27,8 +31,9 @@ class Home extends Component {
     console.log("This.context", this.context);
     console.log("This.drizzle.contracts", this.contracts.WTIndex);
     this.getTravelReqestCount();
-    this.getTravelRequests();
-    this.getTravelRequestDetail();
+    this.setOwner();
+    //this.getTravelRequests();
+    
   }
 
   async componentDidUpdate(prevProps) {
@@ -40,6 +45,16 @@ class Home extends Component {
     }
   }
 
+  setOwner = async () => {
+    try {
+      const sponsorAddress = await this.contracts.WTIndex.methods.owner().call();
+      console.log("The owner is:", sponsorAddress);
+      this.setState({sponsorAddress})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   getTravelReqestCount = async () => {
     //console.log("Inside Get Travel Requests", this.contracts.WTIndex);
     try {
@@ -48,6 +63,7 @@ class Home extends Component {
         .call();
       console.log("The request Count is: ", requestCount);
       this.setState({ requestCount });
+      this.getTravelRequestDetail(requestCount);
     } catch (error) {
       console.log(error);
     }
@@ -65,31 +81,47 @@ class Home extends Component {
   };
 
   getTravelRequestDetail = async num => {
+    console.log("REquest Number:", num);
+    let requests = [];
+    for (let x = 0; x < num-1; x++){
     try {
       const requestDetail = await this.contracts.WTIndex.methods
-        .getHotelByListIndex()
+        .getHotelByListIndex(x)
         .call();
       console.log("requestDetail", requestDetail);
+      requests.push(requestDetail);
     } catch (error) {
       console.log(error);
     }
+    console.log("The Requests", requests);
+    this.setState({requestDetails: requests});
+
+  }
+
+
+  //console.log("The Request array", requests);
   };
 
   render() {
+    
+
+    const list = this.state.requestDetails.map( (req, i) => {
+      return <li key={i}>{req[2]}</li>
+    });
+
     return (
       <main className="container">
         <div className="outerBox">
           <div className="titleBox">EMERGENCY TRAVEL</div>
-          <div className="account-data">
+          {/* <div className="account-data">
             ACCOUNT FUNDS:{" "}
             <AccountData accountIndex="0" units="ether" precision="3" />
-          </div>
+          </div> */}
+          <SponsorBar sponsorAddress={this.state.sponsorAddress} emergencyDetails={this.state.emergencyDetails}/>
           Total Requests: {this.state.requestCount}
           Requests:
           <ol>
-            {this.state.requests.map(req => (
-              <li>{req}</li>
-            ))}
+            {list}
           </ol>
         </div>
       </main>
