@@ -1,9 +1,4 @@
 import React, { Component } from "react";
-import {
-  AccountData,
-  ContractData,
-  ContractForm
-} from "drizzle-react-components";
 import SponsorBar from "../SponsorComponent/SponsorBar";
 import SingleRequest from "../requestComponents/SingleRequest";
 
@@ -107,7 +102,8 @@ class Home extends Component {
     
 
     const list = this.state.requestDetails.map( (req, i) => {
-      return <li key={i}>{req[2]}</li>
+      return <SingleRequest key={i} donationAddress={req[0]} dataURI={req[2]} donationRequired={req[3]}/>
+      
     });
 
     return (
@@ -119,12 +115,12 @@ class Home extends Component {
             <AccountData accountIndex="0" units="ether" precision="3" />
           </div> */}
           <SponsorBar sponsorAddress={this.state.sponsorAddress} emergencyDetails={this.state.emergencyDetails}/>
-          <SingleRequest/>
+          
           Total Requests: {this.state.requestCount}
           Requests:
-          <ol>
+          
             {list}
-          </ol>
+          
         </div>
       </main>
     );

@@ -20,7 +20,8 @@ const styles = {
 };
 
 function SingleRequest(props) {
-  const { classes } = props;
+  const { classes, donationAddress, donationRequired } = props;
+  console.log("Donation Address", donationAddress);
   return (
     <Card className={classes.card}>
       <CardActionArea>
@@ -36,6 +37,8 @@ function SingleRequest(props) {
           <Typography gutterBottom variant="h5" component="h2">
             Kurdi Familly
           </Typography>
+          Donation Address: {donationAddress}
+          Donation Required: {donationRequired}
           <Typography component="p">
             3 years old Boy. Kurdish background escaping Syrian War. Attempting to reach Canada, first tried to sail from Bodrum in Turkey. Kurdi family paid $5,860 for their four spaces on the boat.
           </Typography>
