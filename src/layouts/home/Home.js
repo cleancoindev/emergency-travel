@@ -103,7 +103,8 @@ class Home extends Component {
     
 
     const list = this.state.requestDetails.map( (req, i) => {
-      return <SingleRequest key={i} donationAddress={req[0]} dataURI={req[2]} donationRequired={req[3]}/>
+      
+      return (<SingleRequest key={i} donationAddress={req[0]} dataURI={req[2]} donationRequired={req[3]}/>)
       
     });
 

@@ -21,7 +21,7 @@ const styles = {
 };
 
 function SingleRequest(props) {
-  const { classes, donationAddress, donationRequired, web3 } = props;
+  const { classes, donationAddress, donationRequired, web3, amountDonated = 0 } = props;
 
   function sendDonation(amount) {
     amount = amount //convert to wei;
@@ -35,8 +35,13 @@ function SingleRequest(props) {
       if (!err)
         console.log(transactionHash + " success"); 
     });
-});
+  });
 }
+
+ async function getBalance(){
+  const balance = await web3.fromWei(web3.eth.getBalance(donationAddress));
+  console.log("Balance is", balance);
+ }
 
   return (
     <Card className={classes.card}>
@@ -51,7 +56,8 @@ function SingleRequest(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Kurdi Familly
+            Kurdi Familly: 
+            Amount Donated: $-add later-
           </Typography>
           Donation Address: {donationAddress}
           Donation Required: {donationRequired}
@@ -62,12 +68,13 @@ function SingleRequest(props) {
       </CardActionArea>
       <CardActions>
         <DonateButtonContainer donationAddress={donationAddress}/>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
+        
+          Amount Donated: 
+        
       </CardActions>
     </Card>
   );
+
 }
 
 SingleRequest.propTypes = {
