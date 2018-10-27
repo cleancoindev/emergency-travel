@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ipfs from "../../home/ipfs/ipfs";
 import { Button } from 'reactstrap';
+import MakeRequestTextForm from './MakeRequestTextForm';
 
 import PropTypes from "prop-types";
 
@@ -89,7 +90,7 @@ class MakeRequest extends Component {
       <div>
         <div>Upload to IPFS Request</div>
         <div className="uploadImageBox">
-        {this.state.ipfsHash ? <img src={this.ipfsImage()} /> : <h3> Upload Photo:  </h3>}
+        {this.state.ipfsHash ? <img className="uploadedImage" src={this.ipfsImage()} /> : <h3> Upload Photo:  </h3>}
         </div>
         <form onSubmit={this.onSubmit}>
           <input type="file" onChange={this.captureFile} />
@@ -98,12 +99,9 @@ class MakeRequest extends Component {
           </Button>
         </form>
 
-        {/* Image Location: {this.state.ipfsHash} */}
-
-        {/* <form onSubmit={this.onSubmit2}>
-        <input type="file" onChange={this}
-        </form> */}
-
+    
+        
+        <MakeRequestTextForm />
         Powered by <a href="https://windingtree.com/">Winding Tree</a>.
       </div>
     );
