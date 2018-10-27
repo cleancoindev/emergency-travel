@@ -12,7 +12,7 @@ import DonateButtonContainer from '../requestComponents/donateButton/DonateButto
 
 const styles = {
   card: {
-    maxWidth: 345,
+     maxWidth: 345,
   },
   media: {
     // ⚠️ object-fit is not supported by IE11.

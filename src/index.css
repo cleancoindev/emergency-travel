@@ -11,6 +11,7 @@ body {
 .outerBox {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .titleBox {
@@ -26,4 +27,15 @@ border-bottom: black;
 .account-data {
   color: black;
   font-family: 'Open Sans', sans-serif;
+}
+
+.SingleRequest {
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.requests {
+  margin: 1px;
 }

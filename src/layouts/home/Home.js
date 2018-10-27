@@ -104,13 +104,14 @@ class Home extends Component {
 
     const list = this.state.requestDetails.map( (req, i) => {
       
-      return (<SingleRequest key={i} donationAddress={req[0]} dataURI={req[2]} donationRequired={req[3]}/>)
+      return (<div className="SingleRequest"><SingleRequest key={i} donationAddress={req[0]} dataURI={req[2]} donationRequired={req[3]}/></div>)
       
     });
 
     return (
-      <main className="container">
+      <main >
         <div className="outerBox">
+        <div className="requests">
           <div className="titleBox">EMERGENCY TRAVEL</div>
           {/* <div className="account-data">
             ACCOUNT FUNDS:{" "}
@@ -123,6 +124,7 @@ class Home extends Component {
           
             {list}
           
+        </div>
         </div>
       </main>
     );
