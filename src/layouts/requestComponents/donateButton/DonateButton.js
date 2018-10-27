@@ -17,25 +17,72 @@ class DonateButton extends Component {
     super(props);
     this.contracts = context.drizzle.contracts;
     this.web3 = context.drizzle.web3;
-    this.state = {};
+    this.state = {
+      amountToDonate: 0,
+      userAddress: this.props.accounts
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ amountToDonate: event.target.value });
+  }
+
+  async handleSubmit(event) {
+    let nonce = await this.web3.eth.getTransactionCount(
+      this.state.userAddress[0]
+    );
+    console.log("The Nonce is:", nonce);
+    const amount = this.state.amountToDonate.toString();
+
+    const amountInWei = this.web3.utils.toWei(amount, "ether");
+    console.log("The amount", amountInWei);
+
+    const transactionHash = await this.web3.eth.sendTransaction(
+        {
+          from: this.state.userAddress[0],
+          to: this.props.donationAddress,
+          value: amountInWei,
+        },
+        (err, transactionHash) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(transactionHash);
+          }
+        },
+      );
+    //event.preventDefault();
+    console.log("Success!", transactionHash);
   }
 
   componentDidMount() {
-      console.log("Web3 in Donate Button", this.web3);
+    console.log("Web3 in Donate Button", this.web3);
+    console.log("The user ADdress", this.state.userAddress);
   }
 
   render() {
     const { classes } = this.props;
-    
+
     return (
       <div>
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.button}
-        >
-          Donate
-        </Button>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="number"
+            value={this.state.amountToDonate}
+            onChange={this.handleChange}
+          />
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            onClick={this.handleSubmit}
+          >
+            Donate
+          </Button>
+        </form>
       </div>
     );
   }

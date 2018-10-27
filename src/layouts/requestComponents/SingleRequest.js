@@ -61,7 +61,7 @@ function SingleRequest(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <DonateButtonContainer/>
+        <DonateButtonContainer donationAddress={donationAddress}/>
         <Button size="small" color="primary">
           Learn More
         </Button>
