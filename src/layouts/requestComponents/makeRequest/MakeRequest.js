@@ -133,7 +133,7 @@ class MakeRequest extends Component {
     this.createFullJsonObjectAndSendToIPFS(personalStoryObject);
   };
 
-  createNewRequestOnBlockchain = async (requestHash, personCount) => {
+  createNewRequestOnBlockchain = async (requestHash, personCount = 1) => {
       console.log("What is request hash?", requestHash.hash, "and Count?", personCount);
     try {
       const transactionHash = await this.contracts.WTIndex.methods
@@ -150,7 +150,7 @@ class MakeRequest extends Component {
   render() {
     return (
       <div className="requestContainer">
-        <div className="uploadIPFS">Upload to IPFS Request</div>
+        <div className="uploadIPFS">To request Emergency Travel:</div>
         <div className="uploadImageBox">
           {this.state.ipfsHash ? (
             <img className="uploadedImage" src={this.ipfsImage()} />
