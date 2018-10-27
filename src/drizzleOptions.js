@@ -18,7 +18,7 @@ const drizzleOptions = {
     WTIndex: ['HotelRegistered']  
   },
   polls: {
-    accounts: 1500
+     accounts: 1500
   }
 }
 
