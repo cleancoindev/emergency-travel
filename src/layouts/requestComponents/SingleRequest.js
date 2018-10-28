@@ -26,6 +26,8 @@ const styles = {
 class SingleRequest extends Component {
   constructor(props, context) {
     super(props, context);
+    this.contracts = context.drizzle.contracts;
+    this.web3 = context.drizzle.web3;
     this.state = {
       donationBalance: 0,
       percentFinished: 0,
@@ -52,8 +54,18 @@ class SingleRequest extends Component {
     this.setState({ donationBalance, percentFinished });
   };
 
+  getUriDataFromContract = async () => {
+    try {
+      const index = await this.contracts.WTIndex.methods.hotelsIndex(this.props.donationAddress).call();
+      const uri = await this.contracts.WTIndex.methods.HotelList(index-1).call();
+      console.log("The URI info", uri);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   getUriDataFromIpfs = async (
-    uri = "QmZNwyZdfxm52Ru7so8DdZ9x5orb2oPiH61rVwduKad4Cb"
+    uri = "QmcLwV3zavxkqxuJjKN93pfQmnb67bL1ei14YHdnzqyGoT"
   ) => {
     const ipfsLink = "https://ipfs.io/ipfs/" + uri;
     
@@ -70,6 +82,7 @@ class SingleRequest extends Component {
   componentDidMount() {
     this.getBalance();
     this.getUriDataFromIpfs();
+    this.getUriDataFromContract();
   }
 
   render() {
