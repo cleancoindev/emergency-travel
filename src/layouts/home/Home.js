@@ -139,7 +139,7 @@ class Home extends Component {
                 emergencyDetails={this.state.emergencyDetails}
               />
             </div>
-            <div className="menu"><Link to="/request/">Request</Link></div>
+            <div className="menu"><Link to="/request/">**Make Request**</Link></div>
             <div className="request-count">
             
             Travel Requests: {this.state.requestCount-1}
