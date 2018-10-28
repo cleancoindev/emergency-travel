@@ -89,13 +89,17 @@ class SingleRequest extends Component {
     let fullName = "Loading...";
     let numberOfPeople = "Loading...";
     let personalStory = "Loading...";
+    let photoURI = "";
 
     if (this.state.ipfsURI.Story) {
       //{fullName, numberOfPeople, personalStory} = this.state.ipfsURI.Story;
+      //console.log("IPFS URI", this.state.ipfsURI);
       fullName = this.state.ipfsURI.Story.fullName;
       numberOfPeople = this.state.ipfsURI.Story.numberOfPeople;
       personalStory = this.state.ipfsURI.Story.personalStory;
+      photoURI = "https://ipfs.io/ipfs/"+this.state.ipfsURI.photoURI;
 
+      
      
     }
     return (
@@ -106,7 +110,7 @@ class SingleRequest extends Component {
             alt="Alan Kurdi"
             className={this.props.classes.media}
             height="340"
-            image="https://www.nexofin.com/archivos/2015/09/sirios.jpg"
+            image={photoURI}
             title="Kurdi Familly"
           />
           <CardContent>
