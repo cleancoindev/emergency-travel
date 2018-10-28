@@ -3,9 +3,9 @@ import React from "react";
 function SponsorBar(props) {
   const { sponsorAddress, emergencyDetails } = props;
   return (
-    <div className="sponsorBar">
+    <div className="">
       <div className="sponsorBanner">
-        <img src="http://pluspng.com/img-png/logo-air-france-klm-png-official-carrier-air-france-klm-global-meetings-3189.jpg" />
+        <img src="https://cdn.worldvectorlogo.com/logos/air-france-11.svg" />
       </div>
       <div className="sponsorAddress">
         Sponsor Address:{" "}

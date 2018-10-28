@@ -128,7 +128,7 @@ class Home extends Component {
       <main>
         <div className="outerBox">
           <div className="requests">
-            <div className="titleBox">EMERGENCY TRAVEL</div>
+            <div className="titleBox"><span className="AppName">EMERGENCY TRAVEL</span></div>
             {/* <div className="account-data">
             ACCOUNT FUNDS:{" "}
             <AccountData accountIndex="0" units="ether" precision="3" />
@@ -142,7 +142,7 @@ class Home extends Component {
             <div className="menu"><Link to="/request/">Request</Link></div>
             <div className="request-count">
             
-            Donation Requests: {this.state.requestCount-1}
+            Travel Requests: {this.state.requestCount-1}
             </div>
             <div className="request-list">{list}</div>
             
