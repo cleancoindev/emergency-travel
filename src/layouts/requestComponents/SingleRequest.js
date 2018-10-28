@@ -14,6 +14,8 @@ import { Progress } from "react-sweet-progress";
 import "react-sweet-progress/lib/style.css";
 import TopUp from "../home/adminFeatures/TopUp";
 import ReleaseButton from "../home/adminFeatures/Release";
+import Verify from "../home/adminFeatures/Verify";
+import QRCode from "qrcode.react";
 
 const styles = {
   card: {
@@ -32,13 +34,13 @@ class SingleRequest extends Component {
     this.web3 = context.drizzle.web3;
     this.account = this.props.thisAccount;
     this.sponsorAddress = this.props.sponsor;
-    this.donationAddress = this.props.donationAddress
+    this.donationAddress = this.props.donationAddress;
     this.state = {
       donationBalance: 0,
       percentFinished: 0,
       ipfsURI: {},
       areWeAdmin: false,
-      areWeRequestor: false,
+      areWeRequestor: false
     };
   }
 
@@ -48,35 +50,37 @@ class SingleRequest extends Component {
     const balance = await this.context.drizzle.web3.eth.getBalance(
       this.props.donationAddress
     );
-   
+
     let donationBalance = await this.context.drizzle.web3.utils.fromWei(
       balance
     );
-    
 
     let percentFinished = Math.floor(
       (donationBalance / this.props.donationRequired) * 100
     );
-    
+
     this.setState({ donationBalance, percentFinished });
   };
 
   getUriDataFromContract = async () => {
     try {
-      const index = await this.contracts.WTIndex.methods.hotelsIndex(this.props.donationAddress).call();
-      const uri = await this.contracts.WTIndex.methods.HotelList(index-1).call();
+      const index = await this.contracts.WTIndex.methods
+        .hotelsIndex(this.props.donationAddress)
+        .call();
+      const uri = await this.contracts.WTIndex.methods
+        .HotelList(index - 1)
+        .call();
       console.log("The URI info", uri);
       this.getUriDataFromIpfs(uri.ContractURI);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   getUriDataFromIpfs = async (
     uri = "QmcLwV3zavxkqxuJjKN93pfQmnb67bL1ei14YHdnzqyGoT"
   ) => {
     const ipfsLink = "https://ipfs.io/ipfs/" + uri;
-    
 
     try {
       const dataObject = await axios.get(ipfsLink);
@@ -92,16 +96,13 @@ class SingleRequest extends Component {
     this.getUriDataFromContract();
   }
 
-  areWeAdmin = async () =>{
-
-    return (this.account == this.sponsorAddress);
-  }
+  areWeAdmin = async () => {
+    return this.account == this.sponsorAddress;
+  };
 
   areWeRequestor = async () => {
-
-    return (this.donationAddress == this.sponsorAddress);
-  }
-
+    return this.donationAddress == this.sponsorAddress;
+  };
 
   render() {
     let fullName = "Loading...";
@@ -115,10 +116,7 @@ class SingleRequest extends Component {
       fullName = this.state.ipfsURI.Story.fullName;
       numberOfPeople = this.state.ipfsURI.Story.numberOfPeople;
       personalStory = this.state.ipfsURI.Story.personalStory;
-      photoURI = "https://ipfs.io/ipfs/"+this.state.ipfsURI.photoURI;
-
-      
-     
+      photoURI = "https://ipfs.io/ipfs/" + this.state.ipfsURI.photoURI;
     }
     return (
       <Card className={this.props.classes.card}>
@@ -133,8 +131,22 @@ class SingleRequest extends Component {
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-            {this.areWeAdmin ? <div className="adminButtons"><TopUp /><ReleaseButton/></div> : <span/>}
-            
+              {this.areWeAdmin ? (
+                <div className="adminButtons">
+                  <TopUp />
+                  <ReleaseButton />
+                  <Verify />
+                </div>
+              ) : (
+                <span />
+              )}
+              {this.areWeRequestor ? (
+                <div className="qrCode">
+                  <QRCode value={this.donationAddress} />
+                </div>
+              ) : (
+                <span />
+              )}
               {fullName}
               <div className="donationRequested">
                 $ {this.props.donationRequired} USD
@@ -154,15 +166,12 @@ class SingleRequest extends Component {
               </a>
             </div>
 
-            <Typography component="p">
-              {personalStory}
-            </Typography>
+            <Typography component="p">{personalStory}</Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
           <DonateButtonContainer donationAddress={this.props.donationAddress} />
           Amount Donated:
-          
         </CardActions>
       </Card>
     );
