@@ -59,6 +59,7 @@ class SingleRequest extends Component {
       const index = await this.contracts.WTIndex.methods.hotelsIndex(this.props.donationAddress).call();
       const uri = await this.contracts.WTIndex.methods.HotelList(index-1).call();
       console.log("The URI info", uri);
+      this.getUriDataFromIpfs(uri.ContractURI);
     } catch (error) {
       console.log(error)
     }
@@ -81,7 +82,6 @@ class SingleRequest extends Component {
 
   componentDidMount() {
     this.getBalance();
-    this.getUriDataFromIpfs();
     this.getUriDataFromContract();
   }
 
