@@ -21,7 +21,8 @@ class VerifyQR extends Component {
       requestDetails: [],
       balanceRemaining: 0,
       delay: 300,
-      result: "No result"
+      result: "No result",
+      resultValue: false,
     };
 
     this.handleScan = this.handleScan.bind(this);
@@ -35,6 +36,9 @@ class VerifyQR extends Component {
         result: data
       });
     }
+    if (data === this.verifyAddress){
+        this.setState({resultValue: true});
+    }
   }
 
   handleError(err) {
@@ -44,7 +48,8 @@ class VerifyQR extends Component {
   //console.log("The Request array", requests);
 
   doResultsMatch = () => {
-    return this.state.result == this.verifyAddress;
+      console.log("The state result", this.state.result, "the address", this.verifyAddress);
+    return this.state.result === this.verifyAddress;
   };
 
   render() {
@@ -57,7 +62,7 @@ class VerifyQR extends Component {
           style={{ width: "100%" }}
         />
         <p>
-          {this.doResultsMatch ? (
+          {this.state.resultValue ? (
             <div className="resultsMatch">MATCH!</div>
           ) : (
             <div className="noMatch">No Match.</div>

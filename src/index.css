@@ -35,7 +35,6 @@ body {
 
 .qrCodeCheck {
   display: flex;
-  background: red;
   flex-direction: row;
   justify-content: center;
   margin: 0px;
