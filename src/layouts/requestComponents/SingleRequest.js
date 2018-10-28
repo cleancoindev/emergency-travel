@@ -16,6 +16,7 @@ import TopUp from "../home/adminFeatures/TopUp";
 import ReleaseButton from "../home/adminFeatures/Release";
 import Verify from "../home/adminFeatures/Verify";
 import QRCode from "qrcode.react";
+import VerifyQRContainer from "../home/adminFeatures/verify/VerifyQRContainer";
 
 const styles = {
   card: {
@@ -40,7 +41,8 @@ class SingleRequest extends Component {
       percentFinished: 0,
       ipfsURI: {},
       areWeAdmin: false,
-      areWeRequestor: false
+      areWeRequestor: false,
+      verify: false,
     };
   }
 
@@ -104,6 +106,18 @@ class SingleRequest extends Component {
     return this.donationAddress == this.sponsorAddress;
   };
 
+  areWeVerifying = async () => {
+    return this.state.verify;
+  }
+
+  toggleVerify = () => {
+    console.log("Inside Toggle verify!")
+    this.setState(prevState => ({
+      verify: !prevState.verify
+    }));
+   
+  }
+
   render() {
     let fullName = "Loading...";
     let numberOfPeople = "Loading...";
@@ -130,23 +144,33 @@ class SingleRequest extends Component {
             title="Kurdi Familly"
           />
           <CardContent>
+
+{this.areWeAdmin ? (
+  <div className="adminButtons">
+    <TopUp />
+    <ReleaseButton />
+    <Verify toggle={this.toggleVerify}/>
+  </div>
+) : (
+  <span />
+)}
+{this.areWeRequestor ? (
+  <div className="qrCode">
+    <QRCode value={this.donationAddress} />
+  </div>
+) : (
+  <span />
+)}
+{this.state.verify ? (
+  <div className="qrCodeCheck">
+    <VerifyQRContainer donationAddress={this.donationAddress} />
+  </div>
+) : (
+  <span />
+)}
+
             <Typography gutterBottom variant="h5" component="h2">
-              {this.areWeAdmin ? (
-                <div className="adminButtons">
-                  <TopUp />
-                  <ReleaseButton />
-                  <Verify />
-                </div>
-              ) : (
-                <span />
-              )}
-              {this.areWeRequestor ? (
-                <div className="qrCode">
-                  <QRCode value={this.donationAddress} />
-                </div>
-              ) : (
-                <span />
-              )}
+              
               {fullName}
               <div className="donationRequested">
                 $ {this.props.donationRequired} USD

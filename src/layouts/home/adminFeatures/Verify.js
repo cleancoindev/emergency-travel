@@ -16,7 +16,7 @@ function VerifyButton(props) {
   const { classes } = props;
   return (
     <div>
-      <Button variant="outlined" className={classes.button}>
+      <Button variant="outlined" className={classes.button} onClick={()=> props.toggle()}>
         Verify
       </Button>
       
