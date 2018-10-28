@@ -12,6 +12,8 @@ import Typography from "@material-ui/core/Typography";
 import DonateButtonContainer from "../requestComponents/donateButton/DonateButtonContainer";
 import { Progress } from "react-sweet-progress";
 import "react-sweet-progress/lib/style.css";
+import TopUp from "../home/adminFeatures/TopUp";
+import ReleaseButton from "../home/adminFeatures/Release";
 
 const styles = {
   card: {
@@ -28,10 +30,15 @@ class SingleRequest extends Component {
     super(props, context);
     this.contracts = context.drizzle.contracts;
     this.web3 = context.drizzle.web3;
+    this.account = this.props.thisAccount;
+    this.sponsorAddress = this.props.sponsor;
+    this.donationAddress = this.props.donationAddress
     this.state = {
       donationBalance: 0,
       percentFinished: 0,
-      ipfsURI: {}
+      ipfsURI: {},
+      areWeAdmin: false,
+      areWeRequestor: false,
     };
   }
 
@@ -85,6 +92,17 @@ class SingleRequest extends Component {
     this.getUriDataFromContract();
   }
 
+  areWeAdmin = async () =>{
+
+    return (this.account == this.sponsorAddress);
+  }
+
+  areWeRequestor = async () => {
+
+    return (this.donationAddress == this.sponsorAddress);
+  }
+
+
   render() {
     let fullName = "Loading...";
     let numberOfPeople = "Loading...";
@@ -115,6 +133,8 @@ class SingleRequest extends Component {
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
+            {this.areWeAdmin ? <div className="adminButtons"><TopUp /><ReleaseButton/></div> : <span/>}
+            
               {fullName}
               <div className="donationRequested">
                 $ {this.props.donationRequired} USD
@@ -142,6 +162,7 @@ class SingleRequest extends Component {
         <CardActions>
           <DonateButtonContainer donationAddress={this.props.donationAddress} />
           Amount Donated:
+          
         </CardActions>
       </Card>
     );

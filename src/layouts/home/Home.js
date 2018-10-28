@@ -12,6 +12,7 @@ class Home extends Component {
     super(props);
     this.contracts = context.drizzle.contracts;
     this.web3 = context.drizzle.web3;
+    this.account = this.props.accounts;
     this.state = {
       sponsorAddress: 0x0,
       emergencyDetails: "",
@@ -111,6 +112,7 @@ class Home extends Component {
   };
 
   render() {
+
     const list = this.state.requestDetails.map((req, i) => {
       return (
         <div className="SingleRequest">
@@ -119,6 +121,9 @@ class Home extends Component {
             donationAddress={req[0]}
             dataURI={req[2]}
             donationRequired={req[3]}
+            thisAccount={this.account}
+            sponsor={this.state.sponsorAddress}
+
           />
         </div>
       );

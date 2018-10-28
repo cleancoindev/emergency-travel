@@ -1,15 +1,9 @@
-// var SimpleStorage = artifacts.require("SimpleStorage");
-// var TutorialToken = artifacts.require("TutorialToken");
-// var ComplexStorage = artifacts.require("ComplexStorage");
+
 const WTIndex = artifacts.require("WTIndex");
 
 module.exports = function(deployer, network, accounts) {
   console.log("Network:", network);
   console.log("Accounts:", accounts);
-
-  // deployer.deploy(SimpleStorage);
-  // deployer.deploy(TutorialToken);
-  // deployer.deploy(ComplexStorage);
 
   const lifTokenAddress =
     network == "mainnent"
@@ -17,7 +11,7 @@ module.exports = function(deployer, network, accounts) {
       : "0x5FDFBa355A30FB00ee12965cf3a1c24CA8DF77FB";
 
   deployer
-    .deploy(WTIndex, 100, "Air France: Syria Rescue")
+    .deploy(WTIndex, 1, "Air France: Syria Rescue")
     .then(function(wtIndexContract) {
       console.log("WTIndex address:", wtIndexContract.address);
       wtIndexContract.setLifToken(lifTokenAddress).then(function(tx) {
